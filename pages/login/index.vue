@@ -72,7 +72,7 @@ export default {
     async onSubmit () {
       try {
         // 提交表单请求登录
-        const { data } = this.isLogin
+        const { user } = this.isLogin
           ? await login({
               user: this.user
             })
@@ -82,10 +82,10 @@ export default {
 
         // console.log(data)
         // TODO: 保存用户的登录状态
-        this.$store.commit('setUser', data.user)
+        this.$store.commit('setUser', user)
 
         // 为了防止刷新页面数据丢失，我们需要把数据持久化
-        Cookie.set('user', data.user)
+        Cookie.set('user', user)
 
         // 跳转到首页
         this.$router.push('/')
