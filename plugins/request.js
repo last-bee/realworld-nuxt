@@ -34,31 +34,31 @@ export default ({ store }) => {
     return Promise.reject(error)
   })
 
-  request.interceptors.response.use(
-    response => {
-      // console.log(response)
-      try{
-        response = response.data
-        const { code } = response || {}
-        if ( code == 401 || code == 403 ) {
-          redirect('/login');
-        }
-      }catch(err) {
+  // request.interceptors.response.use(
+  //   response => {
+  //     // console.log('---response---', response)
+  //     // let _response = response && response.data
+  //     // try{
+  //     //   const { code } = _response || {}
+  //     //   if ( code == 401 || code == 403 ) {
+  //     //     redirect('/login');
+  //     //   }
+  //     // }catch(err) {
 
-      }
-      return response
-    },
-    error => {
-      const { status, data } = error.response || {}
-      if (status === 401 || status === 403) {
-        redirect('/login');
-      }
-      if (status === 404) {
-        alert(' Not found requests')
-      }
-      if (status === 422) {
-        return  Promise.reject(data && data.errors)
-      }
-    }
-  );
+  //     // }
+  //     return response
+  //   },
+  //   // error => {
+  //   //   const { status, data } = error.response || {}
+  //   //   if (status === 401 || status === 403) {
+  //   //     redirect('/login');
+  //   //   }
+  //   //   if (status === 404) {
+  //   //     alert && alert(' Not found requests')
+  //   //   }
+  //   //   if (status === 422) {
+  //   //     return  Promise.reject(data && data.errors)
+  //   //   }
+  //   // }
+  // );
 }

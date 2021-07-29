@@ -54,13 +54,15 @@ export default {
     }
   },
   async mounted() {
-    const { user } = await getSettingInfo()
+    const { data } = await getSettingInfo()
+    const { user } = data
     this.user = user
   },
   methods: {
     async onSubmit() {
       this.disabled = true
-      const { user } = await submitSettingInfo(this.user)
+      const { data } = await submitSettingInfo(this.user)
+      const { user } = data
       this.disabled = false
       // 保存数据
       this.$store.commit('setUser', user)

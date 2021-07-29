@@ -38,13 +38,12 @@
           <div v-if="!article">
             <div class="article-preview" v-for="art in articles" :key="art.slug" @click="onClickArticle(art)">
               <div class="article-meta">
-                <a><img :src="art.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'" /></a>
+                <a><img :src="art.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'"></a>
                 <div class="info" @click.stop.prevent>
                   <nuxt-link class="author" :to="{ path: '/profile', params: { username: art.author.username } }">{{ art.author.username }}</nuxt-link>
-                  <!-- <a @click="toAuthor"></a> -->
                   <span class="date">January 20th</span>
                 </div>
-                <button @click="onClickFavorited(art)" class="btn btn-sm pull-xs-right" :disabled="art.disabled" :class="art.favorited? 'btn-primary': 'btn-outline-primary'">
+                <button @click.stop.prevent="onClickFavorited(art)" class="btn btn-sm pull-xs-right" :disabled="art.disabled" :class="art.favorited? 'btn-primary': 'btn-outline-primary'">
                   <i class="ion-heart"></i> {{ art.favoritesCount }}
                 </button>
               </div>
@@ -64,12 +63,12 @@
           <div v-if="article === 'favorites'">
             <div class="article-preview" v-for="art in favoritedArticles" :key="art.slug" @click="onClickArticle(art)">
               <div class="article-meta">
-                <a href=""><img :src="art.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'" /></a>
-                <div class="info" @click.stop.prevent>>
+                <a><img :src="art.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'" /></a>
+                <div class="info" @click.stop.prevent>
                   <nuxt-link class="author" :to="{ name: 'profile', params: { username: art.author.username } }">{{ art.author.username }}</nuxt-link>
                   <span class="date">January 20th</span>
                 </div>
-                <button @click="onClickFavorited(art)" class="btn btn-sm pull-xs-right" :disabled="art.disabled" :class="art.favorited? 'btn-primary': 'btn-outline-primary'">
+                <button @click.stop.prevent="onClickFavorited(art)" class="btn btn-sm pull-xs-right" :disabled="art.disabled" :class="art.favorited? 'btn-primary': 'btn-outline-primary'">
                   <i class="ion-heart"></i> {{ art.favoritesCount }}
                 </button>
               </div>
@@ -118,7 +117,8 @@ export default {
       this.article = article || ''
       this.username = username
       
-      const { profile } = await getProfilesByName(this.$route.params.username)
+      const { data } = await getProfilesByName(this.$route.params.username)
+      const { profile  } = data
       this.profile = profile
       console.log(this.article)
       if(!this.article) {
@@ -129,7 +129,8 @@ export default {
     },
     async getMyArticles() {
       const offset = 0//Math.ceil(this.articles.length / this.limit)
-      const { articlesCount, articles } = await getMyArticles(this.username, offset)
+      const { data } = await getMyArticles(this.username, offset)
+      const { articlesCount, articles } = data
       this.articlesCount = articlesCount
       this.articles = articles//this.articles.concat(articles)
     },
@@ -147,16 +148,18 @@ export default {
     },
     async getFavoritedArticles() {
       const offset = 0//Math.ceil(this.favoritedArticles.length / this.limit)
-      const { articlesCount: favoritedCount, articles: favoritedArticles } = await getFavoritedArticles(this.username, offset)
+      const { data } = await getFavoritedArticles(this.username, offset)
+      const { articlesCount: favoritedCount, articles: favoritedArticles } = data
       this.favoritedCount = favoritedCount
       this.favoritedArticles = favoritedArticles//this.favoritedArticles.concat(favoritedArticles)
     },
-    async onClickFavorited(data) {
-      data.disabled = true
-      const { article } = await changeFavorite(data.favorited?'DELETE': 'POST',data.slug)
-      data.favoritesCount = article.favoritesCount
-      data.favorited = !data.favorited
-      data.disabled = false
+    async onClickFavorited(item) {
+      item.disabled = true
+      const { data } = await changeFavorite(item.favorited?'DELETE': 'POST', item.slug)
+      const { article } = data 
+      item.favoritesCount = article.favoritesCount
+      item.favorited = !item.favorited
+      item.disabled = false
     },
     onClickArticle({ slug }) {
       this.$router.push(`/article/${ slug }`)

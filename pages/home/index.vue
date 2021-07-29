@@ -197,10 +197,10 @@ export default {
       getTags()
     ])
 
-    console.log(articleRes, tagRes)
+    // console.log(articleRes, tagRes)
 
-    const { articles, articlesCount } = articleRes || { articles: [] }
-    const { tags } = tagRes || { tags: [] }
+    const { articles, articlesCount } = articleRes.data
+    const { tags } = tagRes.data
 
     articles.forEach(article => article.favoriteDisabled = false)
 

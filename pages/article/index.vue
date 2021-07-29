@@ -48,7 +48,8 @@ export default {
   name: 'ArticleIndex',
   async asyncData ({ params }) {
     console.log(params)
-    const { article } = await getArticle(params.slug)
+    const { data } = await getArticle(params.slug)
+    const { article } = data
     const md = new MarkdownIt()
     article.body = md.render(article.body)
     return {
