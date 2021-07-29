@@ -36,11 +36,17 @@ export default ({ store }) => {
 
   request.interceptors.response.use(
     response => {
-      const { code } = response.data || {}
-      if ( code == 401 || code == 403 ) {
-        redirect('/login');
+      // console.log(response)
+      try{
+        response = response.data
+        const { code } = response || {}
+        if ( code == 401 || code == 403 ) {
+          redirect('/login');
+        }
+      }catch(err) {
+
       }
-      return response.data;
+      return response
     },
     error => {
       const { status, data } = error.response || {}
