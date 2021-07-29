@@ -48,7 +48,7 @@ export default {
         username: '',
         bio: '',
         email: '',
-        password: ''
+        password: 'realworld163'
       },
       disabled: false
     }
