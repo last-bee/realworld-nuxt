@@ -39,7 +39,7 @@
             <div class="article-preview" v-for="art in articles" :key="art.slug" @click="onClickArticle(art)">
               <div class="article-meta">
                 <a><img :src="art.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'" /></a>
-                <div class="info">
+                <div class="info" @click.stop.prevent>
                   <nuxt-link class="author" :to="{ path: '/profile', params: { username: art.author.username } }">{{ art.author.username }}</nuxt-link>
                   <!-- <a @click="toAuthor"></a> -->
                   <span class="date">January 20th</span>
@@ -65,7 +65,7 @@
             <div class="article-preview" v-for="art in favoritedArticles" :key="art.slug" @click="onClickArticle(art)">
               <div class="article-meta">
                 <a href=""><img :src="art.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'" /></a>
-                <div class="info">
+                <div class="info" @click.stop.prevent>>
                   <nuxt-link class="author" :to="{ name: 'profile', params: { username: art.author.username } }">{{ art.author.username }}</nuxt-link>
                   <span class="date">January 20th</span>
                 </div>
