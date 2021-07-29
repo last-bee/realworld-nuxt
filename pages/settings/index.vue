@@ -15,7 +15,7 @@
                   <input v-model="user.username" class="form-control form-control-lg" type="text" placeholder="Your Name">
                 </fieldset>
                 <fieldset class="form-group">
-                  <textarea v-model="user.bio" lass="form-control form-control-lg" rows="8" placeholder="Short bio about you"></textarea>
+                  <textarea v-model="user.bio" class="form-control form-control-lg" rows="8" placeholder="Short bio about you"></textarea>
                 </fieldset>
                 <fieldset class="form-group">
                   <input v-model="user.email" class="form-control form-control-lg" type="text" placeholder="Email">
