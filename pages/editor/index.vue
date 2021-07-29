@@ -4,7 +4,7 @@
       <div class="row">
 
         <div class="col-md-10 offset-md-1 col-xs-12">
-          <form>
+          <form @submit.prevent="onSubmit">
             <fieldset>
               <fieldset class="form-group">
                   <input type="text" class="form-control form-control-lg" placeholder="Article Title">
@@ -34,7 +34,12 @@
 export default {
   // 在路由匹配组件渲染之前会先执行中间件处理
   middleware: 'authenticated',
-  name: 'EditorIndex'
+  name: 'EditorIndex',
+  methods: {
+    async onSubmit() {// submit setting info
+
+    }
+  }
 }
 </script>
 

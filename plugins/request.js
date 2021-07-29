@@ -33,4 +33,26 @@ export default ({ store }) => {
     // Do something with request error
     return Promise.reject(error)
   })
+
+  request.interceptors.response.use(
+    response => {
+      const { code } = response.data || {}
+      if ( code == 401 || code == 403 ) {
+        redirect('/login');
+      }
+      return response.data;
+    },
+    error => {
+      const { status, data } = error.response || {}
+      if (status === 401 || status === 403) {
+        redirect('/login');
+      }
+      if (status === 404) {
+        alert(' Not found requests')
+      }
+      if (status === 422) {
+        return  Promise.reject(data && data.errors)
+      }
+    }
+  );
 }
